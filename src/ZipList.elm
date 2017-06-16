@@ -10,14 +10,34 @@ module ZipList
         , length
         )
 
-{-| A ZipList is a collection which can be moved forward/backward and that exposes a single current element
+{-| A `ZipList` is a collection which can be moved forward/backward and that exposes a single current element
 
-@docs ZipList, fromList, singleton, current, forward, backward, toList, length
+
+# ZipLists
+
+@docs ZipList
+
+
+# Creation
+
+@docs fromList, singleton
+
+
+# Consultation
+
+@docs current, toList, length
+
+
+# Moving
+
+@docs forward, backward
 
 -}
 
+import Maybe
 
-{-| A collection data type that can be moved forward/backward and that exposes a current element
+
+{-| A collection data type that can be moved forward/backward and that exposes a current element (see the `current` function)
 -}
 type ZipList a
     = Empty
@@ -43,7 +63,7 @@ singleton item =
     Zipper [] item []
 
 
-{-| Return the current element of a ZipList
+{-| Return the current element of a ZipList. `Nothing` will be returned if the ziplist is empty
 -}
 current : ZipList a -> Maybe a
 current zipList =
@@ -65,7 +85,7 @@ performIfNonEmpty f zipList =
             f before current after
 
 
-{-| Move forward a ZipList
+{-| Move forward a `ZipList`
 -}
 forward : ZipList a -> ZipList a
 forward zipList =
@@ -81,7 +101,7 @@ forward zipList =
         zipList
 
 
-{-| Move backward a ZipList
+{-| Move backward a `ZipList`
 -}
 backward : ZipList a -> ZipList a
 backward zipList =
@@ -97,7 +117,7 @@ backward zipList =
         zipList
 
 
-{-| Convert a ZipList into a List
+{-| Convert a `ZipList` into a `List`
 -}
 toList : ZipList a -> List a
 toList zipList =
@@ -113,7 +133,7 @@ toList zipList =
                 ]
 
 
-{-| Return a ziplist length
+{-| Return a `ZipList` length
 -}
 length : ZipList a -> Int
 length zipList =

@@ -9,9 +9,17 @@ import ZipList exposing (ZipList)
 suite : Test
 suite =
     describe "The ZipList module"
-        [ fuzz (list int) "The toList function" <|
+        [ fuzz (list int) "The fromList function" <|
             \randomList ->
                 Expect.equal randomList (ZipList.fromList randomList |> ZipList.toList)
+        , describe "The singleton function"
+            [ test "A singleton should have a length of 1" <|
+                \_ ->
+                    Expect.equal 1 (1 |> ZipList.singleton |> ZipList.length)
+            , test "The current item of a ZipList singleton should be the given item at construction time" <|
+                \_ ->
+                    Expect.equal (Just 1) (1 |> ZipList.singleton |> ZipList.current)
+            ]
         , describe "The current function"
             [ test "An empty list should return Nothing" <|
                 \_ ->
@@ -20,12 +28,12 @@ suite =
                 \_ ->
                     Expect.equal (Just 1) (ZipList.fromList [ 1, 2 ] |> ZipList.current)
             ]
-        , describe "The next function" <|
+        , describe "The forward function" <|
             [ moveTest "An empty list" ZipList.forward [] Nothing
             , moveTest "already at the list end" ZipList.forward [ 1 ] (Just 1)
             , moveTest "still some moves to make" ZipList.forward [ 1, 2 ] (Just 2)
             ]
-        , describe "The previous function" <|
+        , describe "The backward function" <|
             [ moveTest "An empty list" ZipList.backward [] Nothing
             , moveTest "already at the list beginning" ZipList.backward [ 1 ] (Just 1)
             , moveTest "still some moves to make" (ZipList.forward >> ZipList.backward) [ 1, 2 ] (Just 1)

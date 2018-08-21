@@ -1,14 +1,9 @@
-module ZipList
-    exposing
-        ( ZipList
-        , fromList
-        , singleton
-        , current
-        , forward
-        , backward
-        , toList
-        , length
-        )
+module ZipList exposing
+    ( ZipList
+    , fromList, singleton
+    , current, toList, length
+    , forward, backward
+    )
 
 {-| A `ZipList` is a collection which can be moved forward/backward and that exposes a single current element
 
@@ -71,8 +66,8 @@ current zipList =
         Empty ->
             Nothing
 
-        Zipper _ current _ ->
-            Just current
+        Zipper _ elem _ ->
+            Just elem
 
 
 performIfNonEmpty : (List a -> a -> List a -> ZipList a) -> ZipList a -> ZipList a
@@ -81,8 +76,8 @@ performIfNonEmpty f zipList =
         Empty ->
             zipList
 
-        Zipper before current after ->
-            f before current after
+        Zipper before elem after ->
+            f before elem after
 
 
 {-| Move forward a `ZipList`
@@ -90,13 +85,13 @@ performIfNonEmpty f zipList =
 forward : ZipList a -> ZipList a
 forward zipList =
     performIfNonEmpty
-        (\before current after ->
+        (\before elem after ->
             case after of
                 [] ->
-                    Zipper before current after
+                    Zipper before elem after
 
                 head :: queue ->
-                    Zipper (current :: before) head queue
+                    Zipper (elem :: before) head queue
         )
         zipList
 
@@ -106,13 +101,13 @@ forward zipList =
 backward : ZipList a -> ZipList a
 backward zipList =
     performIfNonEmpty
-        (\before current after ->
+        (\before elem after ->
             case before of
                 [] ->
-                    Zipper before current after
+                    Zipper before elem after
 
                 head :: queue ->
-                    Zipper queue head (current :: after)
+                    Zipper queue head (elem :: after)
         )
         zipList
 
@@ -125,10 +120,10 @@ toList zipList =
         Empty ->
             []
 
-        Zipper before current after ->
+        Zipper before elem after ->
             List.concat
                 [ List.reverse before
-                , [ current ]
+                , [ elem ]
                 , after
                 ]
 
@@ -142,4 +137,4 @@ length zipList =
             0
 
         Zipper before _ after ->
-            1 + (List.length before) + (List.length after)
+            1 + List.length before + List.length after

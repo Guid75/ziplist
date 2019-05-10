@@ -39,7 +39,7 @@ type ZipList a
     | Zipper (List a) a (List a)
 
 
-{-| Craft a new ZipList out of a List
+{-| Craft a new `ZipList` out of a List
 -}
 fromList : List a -> ZipList a
 fromList list =
@@ -51,14 +51,14 @@ fromList list =
             Zipper [] head queue
 
 
-{-| Create a new ZipList with a single element in it
+{-| Create a new `ZipList` with a single element in it
 -}
 singleton : a -> ZipList a
 singleton item =
     Zipper [] item []
 
 
-{-| Return the current element of a ZipList. `Nothing` will be returned if the ziplist is empty
+{-| Return the current element of a `ZipList`. `Nothing` will be returned if the ziplist is empty
 -}
 current : ZipList a -> Maybe a
 current zipList =

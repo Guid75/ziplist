@@ -3,7 +3,7 @@
     "name": "guid75/ziplist",
     "summary": "A collection data type that exposes a single current item",
     "license": "BSD-3-Clause",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "exposed-modules": [
         "ZipList"
     ],

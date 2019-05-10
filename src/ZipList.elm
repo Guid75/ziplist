@@ -70,46 +70,38 @@ current zipList =
             Just elem
 
 
-performIfNonEmpty : (List a -> a -> List a -> ZipList a) -> ZipList a -> ZipList a
-performIfNonEmpty f zipList =
+{-| Move forward a `ZipList`
+-}
+forward : ZipList a -> ZipList a
+forward zipList =
     case zipList of
         Empty ->
             zipList
 
         Zipper before elem after ->
-            f before elem after
-
-
-{-| Move forward a `ZipList`
--}
-forward : ZipList a -> ZipList a
-forward zipList =
-    performIfNonEmpty
-        (\before elem after ->
             case after of
                 [] ->
-                    Zipper before elem after
+                    zipList
 
                 head :: queue ->
                     Zipper (elem :: before) head queue
-        )
-        zipList
 
 
 {-| Move backward a `ZipList`
 -}
 backward : ZipList a -> ZipList a
 backward zipList =
-    performIfNonEmpty
-        (\before elem after ->
+    case zipList of
+        Empty ->
+            zipList
+
+        Zipper before elem after ->
             case before of
                 [] ->
-                    Zipper before elem after
+                    zipList
 
                 head :: queue ->
                     Zipper queue head (elem :: after)
-        )
-        zipList
 
 
 {-| Convert a `ZipList` into a `List`

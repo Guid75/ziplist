@@ -129,4 +129,4 @@ length zipList =
             0
 
         Zipper before _ after ->
-            1 + List.length before + List.length after
+            List.sum [ 1, List.length before, List.length after ]
